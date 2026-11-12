@@ -1,0 +1,15 @@
+#ddev-generated
+# drupalorg CLI (https://github.com/mglaman/drupalorg-cli). Installs the latest
+# release unless the DRUPALORG_CLI_VERSION build arg names one (e.g. 0.15.1;
+# see the README). Docker caches
+# this step, so a newer release only arrives when the image is rebuilt without
+# the cache (ddev debug rebuild).
+ARG DRUPALORG_CLI_VERSION=latest
+RUN if [ "${DRUPALORG_CLI_VERSION}" = "latest" ]; then \
+      url="https://github.com/mglaman/drupalorg-cli/releases/latest/download/drupalorg.phar"; \
+    else \
+      url="https://github.com/mglaman/drupalorg-cli/releases/download/${DRUPALORG_CLI_VERSION}/drupalorg.phar"; \
+    fi \
+  && curl -fsSL -o /usr/local/bin/drupalorg "${url}" \
+  && chmod +x /usr/local/bin/drupalorg \
+  && php /usr/local/bin/drupalorg --version

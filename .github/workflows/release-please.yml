@@ -1,0 +1,21 @@
+# Opens and updates a release pull request from conventional commits (feat:,
+# fix:) pushed to main. Merging it tags the version and publishes a GitHub
+# release, which `ddev add-on get` installs.
+name: release-please
+
+on:
+  push:
+    branches: [ main ]
+
+permissions:
+  contents: write
+  issues: write
+  pull-requests: write
+
+jobs:
+  release-please:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: googleapis/release-please-action@45996ed1f6d02564a971a2fa1b5860e934307cf7 # v5.0.0
+        with:
+          release-type: simple
