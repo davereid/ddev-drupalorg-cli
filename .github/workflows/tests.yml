@@ -1,8 +1,7 @@
 name: tests
 on:
+  # No paths filter on pull requests: required checks must report on every PR.
   pull_request:
-    paths-ignore:
-      - "**.md"
   push:
     branches: [ main ]
     paths-ignore:
