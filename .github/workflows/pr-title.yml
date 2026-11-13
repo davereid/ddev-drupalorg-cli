@@ -1,18 +1,25 @@
-# Checks that pull request titles are conventional commits (e.g. "fix: ..."):
-# squash merges use the title as the commit message, which release-please
-# reads to choose the next version.
-name: pr-title
+name: PR title
 
 on:
   pull_request:
-    types: [ opened, reopened, edited, synchronize ]
+    types:
+      - opened
+      - edited
+      - reopened
+      - synchronize
 
-permissions:
-  pull-requests: read
+permissions: {}
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.number }}
+  cancel-in-progress: true
 
 jobs:
-  validate:
+  conventional-commits:
+    name: Conventional Commits
     runs-on: ubuntu-latest
+    permissions:
+      pull-requests: read # Read the pull request title.
     steps:
       - uses: amannn/action-semantic-pull-request@2252a14e810aa9b85c2d560bd7070c802206ecf6 # v6.1.2
         env:

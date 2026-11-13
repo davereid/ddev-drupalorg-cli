@@ -1,8 +1,7 @@
 name: tests
 on:
+  # No paths filter on pull requests: required checks must report on every PR.
   pull_request:
-    paths-ignore:
-      - "**.md"
   push:
     branches: [ main ]
     paths-ignore:
@@ -23,11 +22,13 @@ concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
-permissions:
-  contents: read
+permissions: {}
 
 jobs:
   tests:
+    name: Test (${{ matrix.os }}, DDEV ${{ matrix.ddev_version }})
+    permissions:
+      contents: read # Check out the add-on.
     strategy:
       matrix:
         os: [ubuntu-latest, ubuntu-24.04-arm]
