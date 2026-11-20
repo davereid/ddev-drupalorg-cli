@@ -3,7 +3,7 @@ on:
   # No paths filter on pull requests: required checks must report on every PR.
   pull_request:
   push:
-    branches: [ main, '*.x' ]
+    branches: [ main, '[0-9]*.x' ] # Not release-please's own release-please--branches--1.x.
     paths-ignore:
       - "**.md"
 
