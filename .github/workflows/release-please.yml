@@ -5,19 +5,19 @@ name: release-please
 
 on:
   push:
-    branches: [ main ]
+    branches: [ main, '*.x' ]
 
 permissions: {}
 
 concurrency:
-  group: ${{ github.workflow }}
+  group: ${{ github.workflow }}-${{ github.ref_name }}
   cancel-in-progress: false
 
 jobs:
   release-please:
     name: Release PR and tags
     runs-on: ubuntu-latest
-    environment: release # Holds the App's private key, for main only.
+    environment: release # Holds the App's private key, for main and *.x only.
     permissions: {} # The App token below does all the writing.
     steps:
       # A GitHub App token, not GITHUB_TOKEN, so release PR checks start without approval (#4).
@@ -33,3 +33,4 @@ jobs:
         with:
           token: ${{ steps.app-token.outputs.token }}
           release-type: simple
+          target-branch: ${{ github.ref_name }}
